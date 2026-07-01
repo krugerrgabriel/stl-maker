@@ -1,0 +1,11 @@
+# recriados pelo install.sh — não levar ao mover o projeto
+.venv/
+bin/
+__pycache__/
+*.pyc
+
+# peças ficam fora do repositório (só a infraestrutura é versionada)
+pecas/
+
+# configuração local do Claude Code
+.claude/settings.local.json
