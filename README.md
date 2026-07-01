@@ -1,182 +1,187 @@
-<h1 align="center">🖨️ STL Maker — Oficina 3D</h1>
+<h1 align="center">🖨️ STL Maker</h1>
 
 <p align="center">
-  <strong>Sua oficina de peças 3D dentro do <a href="https://claude.com/claude-code">Claude Code</a>.</strong><br>
-  Fotos + medidas viram <code>.stl</code> validado, pronto para fatiar e imprimir.
+  <strong>Your 3D parts workshop inside <a href="https://claude.com/claude-code">Claude Code</a>.</strong><br>
+  Photos + measurements become validated <code>.stl</code> files, ready to slice and print.
+</p>
+
+<p align="center">
+  <strong>🇺🇸 English</strong> ·
+  <a href="README.pt-BR.md">🇧🇷 Português</a> ·
+  <a href="README.es.md">🇪🇸 Español</a> ·
+  <a href="README.ja.md">🇯🇵 日本語</a> ·
+  <a href="README.zh-CN.md">🇨🇳 简体中文</a> ·
+  <a href="README.ko.md">🇰🇷 한국어</a> ·
+  <a href="README.de.md">🇩🇪 Deutsch</a>
 </p>
 
 <p align="center">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
   <img alt="OpenSCAD" src="https://img.shields.io/badge/OpenSCAD-2021.01-F9D72C?logo=openscad&logoColor=black">
-  <img alt="build123d" src="https://img.shields.io/badge/build123d-CAD%20em%20Python-0066cc">
-  <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-apt%20ou%20AppImage-E95420?logo=ubuntu&logoColor=white">
-  <img alt="STL estanque" src="https://img.shields.io/badge/STL-sempre%20estanque-success">
+  <img alt="build123d" src="https://img.shields.io/badge/build123d-CAD%20in%20Python-0066cc">
+  <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-apt%20%2B%20sudo-E95420?logo=ubuntu&logoColor=white">
+  <img alt="Watertight STL" src="https://img.shields.io/badge/STL-always%20watertight-success">
 </p>
 
 ---
 
-## 💡 Por que usar
+## 💡 Why use it
 
-Precisou de um suporte, gancho, adaptador ou peça de reposição? O caminho tradicional é abrir um CAD, aprender a ferramenta, modelar, exportar, descobrir que a malha está furada… 😩
+Need a bracket, hook, adapter or replacement part? The traditional path is opening a CAD tool, learning it, modeling, exporting, and then discovering your mesh has holes… 😩
 
-Aqui o fluxo é conversa:
+Here the workflow is a conversation:
 
-1. 📸 Tire fotos da peça (ou do lugar onde ela encaixa)
-2. 📏 Meça com o paquímetro e mande tudo em milímetros
-3. 💬 Descreva o que precisa no Claude Code
-4. 🎉 Receba o `.stl` validado, com dimensões conferidas e orientação de impressão sugerida
+1. 📸 Take photos of the part (or of the spot where it fits)
+2. 📏 Measure with calipers and send everything in millimeters
+3. 💬 Describe what you need in Claude Code
+4. 🎉 Get a validated `.stl`, with checked dimensions and a suggested print orientation
 
-O Claude modela, **olha os previews renderizados**, corrige a geometria sozinho e só entrega STL que passou na validação de estanqueidade.
+Claude models the part, **looks at the rendered previews**, fixes the geometry by itself and only delivers STLs that passed the watertightness check.
 
-> **Descrever custa minutos. Aprender CAD custa semanas.**
+> **Describing takes minutes. Learning CAD takes weeks.**
 
 ---
 
-## ✨ O que tem dentro
+## ✨ What's inside
 
 | | |
 |---|---|
-| 🗣️ **Skill `/peca-3d`** | Roteiro guiado: requisitos → modelagem → iteração visual → entrega |
-| ⚙️ **Duas engines de CAD** | OpenSCAD para peças prismáticas, build123d para curvas, filetes e roscas |
-| 🔬 **Validação automática** | Toda peça passa por checagem de estanqueidade — malha furada não chega no slicer |
-| 🖼️ **Previews em 6 vistas** | Renderizador ortográfico próprio (topo, frente, trás, laterais e iso) para o Claude conferir a geometria |
-| 📐 **Convenções de oficina** | Folgas de encaixe (0.2/0.4 mm), parede mínima 1.2 mm, furos com folga de parafuso — já embutidas |
-| 📦 **Instalador portátil** | Um `install.sh` idempotente que funciona com ou sem sudo |
-| 🧾 **Tudo paramétrico** | Cada peça é código com medidas nomeadas — ajustar 2 mm é editar uma variável |
+| 🗣️ **`/peca-3d` skill** | Guided workflow: requirements → modeling → visual iteration → delivery |
+| ⚙️ **Two CAD engines** | OpenSCAD for prismatic parts, build123d for curves, fillets and threads |
+| 🔬 **Automatic validation** | Every part goes through a watertightness check — broken meshes never reach the slicer |
+| 🖼️ **Previews in 6 views** | Custom orthographic renderer (top, front, back, sides and iso) so Claude can verify the geometry |
+| 📐 **Workshop conventions** | Fit clearances (0.2/0.4 mm), 1.2 mm minimum walls, screw hole tolerances — built in |
+| 📦 **Portable installer** | One idempotent `install.sh` |
+| 🧾 **Everything parametric** | Each part is code with named measurements — adjusting 2 mm is editing one variable |
 
 ---
 
-## 📦 Instalação
+## 📦 Installation
 
-### 1️⃣ Clone o repositório
+### 1️⃣ Clone the repository
 
 ```bash
 git clone https://github.com/krugerrgabriel/stl-maker.git
 cd stl-maker
 ```
 
-### 2️⃣ Rode o instalador
+### 2️⃣ Run the installer
 
 ```bash
-./install.sh
+sudo ./install.sh
 ```
 
-O instalador é idempotente (pode rodar de novo à vontade) e tem dois caminhos:
+The installer takes care of everything — it installs OpenSCAD via `apt`, creates the Python venv (`.venv`) with build123d + trimesh **owned by your user** (not root), and finishes by running a real STL generation test. Idempotent: run it again anytime.
 
-- 🔑 **Com sudo** — instala o OpenSCAD via `apt`
-- 🙅 **Sem sudo** — baixa o AppImage do OpenSCAD para dentro do projeto (`bin/`)
-
-Nos dois casos ele cria o venv Python (`.venv`) com build123d + trimesh e termina rodando um teste real de geração de STL.
-
-### 3️⃣ Confira a instalação
+### 3️⃣ Verify the installation
 
 ```bash
 ./install.sh --check
 ```
 
-Pronto. 🎉
+Done. 🎉
 
-> 💡 **Pré-requisito único:** um Linux com `apt` (Ubuntu, Debian, Mint, Pop!_OS…) e Python 3.10+.
+> 💡 **Single prerequisite:** any Linux with `apt` (Ubuntu, Debian, Mint, Pop!_OS…), `sudo` and Python 3.10+.
 
 ---
 
-## 🚀 Como usar
+## 🚀 How to use
 
 ```bash
 cd stl-maker && claude
 ```
 
-Aí é só conversar — ou chamar a skill direto:
+Then just talk — or call the skill directly:
 
 ```
-/peca-3d suporte de parede para o roteador, 3 furos de 4 mm, vão de 120 mm entre os parafusos
+/peca-3d wall bracket for the router, 3 holes of 4 mm, 120 mm span between screws
 ```
 
-Cole as fotos na conversa, passe as medidas em mm e o Claude cuida do resto. A peça sai em `pecas/<nome>/`:
+Paste photos into the conversation, send the measurements in mm and Claude handles the rest. The part lands in `pecas/<name>/`:
 
 ```
-pecas/suporte-roteador/
-├── suporte-roteador.scad   # o fonte paramétrico
-├── suporte-roteador.stl    # pronto para o slicer
-└── previews/               # 6 vistas renderizadas
+pecas/router-bracket/
+├── router-bracket.scad     # the parametric source
+├── router-bracket.stl      # ready for the slicer
+└── previews/               # 6 rendered views
 ```
 
 ---
 
-## 🧰 As duas engines (ambas grátis)
+## 🧰 The two engines (both free)
 
-| Opção | Ferramenta | Quando usar |
+| Option | Tool | When to use |
 |---|---|---|
-| 🟨 Simples | OpenSCAD (`.scad`) | Suportes, ganchos, espaçadores, caixas, adaptadores |
-| 🐍 Complexa | build123d (`.py`) | Filetes, chanfros, curvas, roscas, exportar STEP |
+| 🟨 Simple | OpenSCAD (`.scad`) | Brackets, hooks, spacers, boxes, adapters |
+| 🐍 Complex | build123d (`.py`) | Fillets, chamfers, curves, threads, STEP export |
 
-O `scripts/gerar.sh` aceita os dois e resolve sozinho qual compilador chamar.
+`scripts/gerar.sh` accepts both and picks the right compiler by itself.
 
 ---
 
-## 🏗️ Como funciona por baixo
+## 🏗️ How it works under the hood
 
 ```
-descrição + fotos + medidas
+description + photos + measurements
         │
         ▼
- .scad ou .py  ──►  scripts/gerar.sh  ──►  STL
+ .scad or .py  ──►  scripts/gerar.sh  ──►  STL
                          │
-                         ├── validar_stl.py   (estanqueidade + dimensões)
-                         └── preview_stl.py   (6 vistas PNG que o Claude lê)
+                         ├── validar_stl.py   (watertightness + dimensions)
+                         └── preview_stl.py   (6 PNG views that Claude reads)
 ```
 
-### Layout do repositório
+### Repository layout
 
 ```
-├── CLAUDE.md               # regras e convenções que o Claude segue
-├── install.sh              # instalador idempotente (com/sem sudo)
+├── CLAUDE.md               # rules and conventions Claude follows
+├── install.sh              # idempotent installer (requires sudo)
 ├── scripts/
-│   ├── gerar.sh            # compila, valida e gera previews
-│   ├── validar_stl.py      # nunca entrega STL não-estanque
-│   └── preview_stl.py      # renderizador ortográfico headless
-├── .claude/skills/peca-3d/ # a skill que guia a criação de peças
-└── pecas/                  # suas peças (criadas localmente, fora do git)
+│   ├── gerar.sh            # compiles, validates and renders previews
+│   ├── validar_stl.py      # never ships a non-watertight STL
+│   └── preview_stl.py      # headless orthographic renderer
+├── .claude/skills/peca-3d/ # the skill that guides part creation
+└── pecas/                  # your parts (created locally, outside git)
 ```
 
 ---
 
-## 🐛 Solução de problemas
+## 🐛 Troubleshooting
 
 <details>
-<summary><strong>"Reparo automático falhou" na validação</strong></summary>
+<summary><strong>"Automatic repair failed" during validation</strong></summary>
 
-A malha saiu não-estanque e o reparo do trimesh não deu conta. Não imprima esse STL — peça para o Claude revisar o modelo (geralmente é booleano com faces coincidentes; estender o cortador ~1 mm além da superfície resolve).
+The mesh came out non-watertight and trimesh couldn't repair it. Don't print that STL — ask Claude to review the model (usually a boolean with coincident faces; extending the cutter ~1 mm past the surface fixes it).
 
 </details>
 
 <details>
-<summary><strong>OpenSCAD não instalou</strong></summary>
+<summary><strong>"Installation requires sudo"</strong></summary>
 
-Sem sudo, o instalador baixa o AppImage para `bin/`. Se a rede bloquear o download, rode com sudo (`sudo ./install.sh`) para usar o apt — ou siga só com build123d, que não depende do OpenSCAD.
+By design, the installer only runs with sudo: `sudo ./install.sh`. Only `./install.sh --check` runs without it.
 
 </details>
 
 <details>
-<summary><strong>Levar para outro Ubuntu</strong></summary>
+<summary><strong>Moving to another Ubuntu machine</strong></summary>
 
-Clone (ou copie a pasta sem `.venv/` e `bin/`, que são recriados) e rode `./install.sh` na máquina nova.
+Clone the repo (or copy the folder without `.venv/` and `bin/`, which get recreated) and run `sudo ./install.sh` on the new machine.
 
 </details>
 
 ---
 
-## 🗿 Formas orgânicas (estatuetas, bonecos, esculturas)
+## 🗿 Organic shapes (figurines, sculptures)
 
-Isso não é CAD — use um gerador de foto→3D:
+That's not CAD — use a photo→3D generator:
 
-- [Tripo](https://www.tripo3d.ai) ou [Meshy](https://www.meshy.ai) — têm plano grátis
-- [Hunyuan3D](https://github.com/Tencent/Hunyuan3D-2) — open source, roda local (precisa de GPU)
+- [Tripo](https://www.tripo3d.ai) or [Meshy](https://www.meshy.ai) — both have free plans
+- [Hunyuan3D](https://github.com/Tencent/Hunyuan3D-2) — open source, runs locally (needs a GPU)
 
-O STL gerado pode ser validado e reparado aqui com `scripts/validar_stl.py`. 😉
+The generated STL can be validated and repaired here with `scripts/validar_stl.py`. 😉
 
 ---
 
 <p align="center">
-  Feito com 🧡 e <a href="https://claude.com/claude-code">Claude Code</a> — descreva a peça, imprima a solução.
+  Made with 🧡 and <a href="https://claude.com/claude-code">Claude Code</a> — describe the part, print the solution.
 </p>
