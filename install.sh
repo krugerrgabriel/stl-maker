@@ -12,6 +12,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV="$DIR/.venv"
 BIN="$DIR/bin"
 PACOTES_PY=(build123d trimesh numpy matplotlib manifold3d fast-simplification shapely networkx)
+BAMBU_URL="https://github.com/bambulab/BambuStudio/releases/download/v02.07.01.62/BambuStudio_ubuntu24.04-v02.07.01.62-20260616195227.AppImage"
 
 # venv e arquivos do projeto devem pertencer ao usuário real, não ao root
 como_usuario() {
@@ -41,6 +42,32 @@ instala_openscad() {
   apt-get update -qq && apt-get install -y openscad \
     || { vermelho "Falha ao instalar o OpenSCAD via apt"; return 1; }
   verde "OpenSCAD instalado"
+}
+
+acha_bambu() {
+  if [ -x "$BIN/bambu-studio" ] && "$BIN/bambu-studio" --help 2>&1 | grep -q "BambuStudio"; then
+    echo "$BIN/bambu-studio"; return 0
+  fi
+  return 1
+}
+
+instala_bambu() {
+  if acha_bambu >/dev/null; then verde "Bambu Studio já instalado: $BIN/bambu-studio"; return 0; fi
+  info "Instalando Bambu Studio (AppImage ~230 MB — gera os .3mf/.gcode.3mf)..."
+  como_usuario mkdir -p "$BIN"
+  if [ ! -f "$BIN/bambustudio.AppImage" ]; then
+    como_usuario curl -fL --progress-bar -o "$BIN/bambustudio.AppImage.part" "$BAMBU_URL" \
+      && como_usuario mv "$BIN/bambustudio.AppImage.part" "$BIN/bambustudio.AppImage" \
+      || { vermelho "Falha ao baixar o Bambu Studio"; return 1; }
+  fi
+  como_usuario chmod +x "$BIN/bambustudio.AppImage"
+  como_usuario bash -c "cd '$BIN' && rm -rf squashfs-root bambustudio-appimage \
+    && ./bambustudio.AppImage --appimage-extract >/dev/null && mv squashfs-root bambustudio-appimage" \
+    || { vermelho "Falha ao extrair o Bambu Studio"; return 1; }
+  # wrapper em vez de symlink: o AppRun resolve caminhos internos a partir de $0
+  como_usuario bash -c "printf '#!/usr/bin/env bash\nexec \"%s/bambustudio-appimage/AppRun\" \"\\\$@\"\n' '$BIN' > '$BIN/bambu-studio' && chmod +x '$BIN/bambu-studio'"
+  acha_bambu >/dev/null || { vermelho "Bambu Studio extraído mas não executa"; return 1; }
+  verde "Bambu Studio instalado em $BIN/bambu-studio"
 }
 
 instala_python() {
@@ -89,6 +116,12 @@ EOF
     vermelho "Venv Python não encontrado (opção 'complexa' indisponível)"; FALHAS=$((FALHAS+1))
   fi
 
+  if acha_bambu >/dev/null; then
+    verde "Bambu Studio: $("$BIN/bambu-studio" --help 2>&1 | grep -om1 'BambuStudio-[0-9.]*') (.3mf + .gcode.3mf)"
+  else
+    vermelho "Bambu Studio não encontrado (geração de 3MF/fatiamento indisponível)"; FALHAS=$((FALHAS+1))
+  fi
+
   echo
   if [ "$FALHAS" -eq 0 ]; then
     verde "Tudo pronto. Abra o Claude Code nesta pasta e peça uma peça (/peca-3d)."
@@ -110,5 +143,6 @@ fi
 info "Oficina 3D — instalação em $DIR"
 instala_openscad || vermelho "OpenSCAD não pôde ser instalado (a opção build123d segue funcionando)"
 instala_python
+instala_bambu || vermelho "Bambu Studio não pôde ser instalado (STL continua funcionando; 3MF não)"
 echo
 verifica

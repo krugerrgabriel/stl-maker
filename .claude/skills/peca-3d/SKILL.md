@@ -12,4 +12,5 @@ Siga as convenções do CLAUDE.md do projeto. Roteiro:
 3. **Modele** — `.scad` (OpenSCAD) para peças simples e prismáticas; `.py` (build123d) para filetes, curvas, roscas ou quando pedirem STEP. Parametrize tudo com variáveis nomeadas no topo.
 4. **Itere** — Rode `scripts/gerar.sh pecas/<slug>/<arquivo>` e LEIA os 6 previews PNG gerados. Compare com as fotos de referência e as medidas. Corrija e regenere até a geometria estar correta — no mínimo uma rodada de correção após o primeiro render.
 5. **Valide** — O `gerar.sh` já valida estanqueidade e dimensões; só entregue STL estanque.
-6. **Entregue** — Informe: caminho do `.stl`, dimensões finais, folgas aplicadas, orientação de impressão sugerida e se precisa de suporte no slicer.
+6. **Arquivos Bambu** — Quando a geometria estiver aprovada, rode UMA vez `scripts/gerar.sh --bambu pecas/<slug>/<arquivo>` para gerar `<peca>.3mf` (projeto) e `<peca>.gcode.3mf` (fatiado). Não fatie a cada iteração — só na final.
+7. **Entregue** — Informe: caminhos do `.stl`, do `.3mf` e do `.gcode.3mf`, dimensões finais, folgas aplicadas, orientação de impressão, tempo/filamento estimados e se precisa de suporte no slicer.

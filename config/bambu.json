@@ -1,0 +1,6 @@
+{
+  "_comentario": "Perfis oficiais Bambu (nomes exatos dos JSONs em bin/bambustudio-appimage/.../profiles/BBL). Setup padrão: A1, bico 0.4, Bambu PLA Basic.",
+  "machine": "Bambu Lab A1 0.4 nozzle",
+  "process": "0.20mm Standard @BBL A1",
+  "filament": "Bambu PLA Basic @BBL A1"
+}

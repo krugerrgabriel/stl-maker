@@ -119,6 +119,23 @@ O `scripts/gerar.sh` aceita os dois e resolve sozinho qual compilador chamar.
 
 ---
 
+## 🎋 Bambu Lab: 3MF pronto para imprimir
+
+Com `--bambu`, o pipeline também gera dois arquivos extras usando o CLI oficial do Bambu Studio (instalado pelo `install.sh` como AppImage em `bin/`):
+
+```
+scripts/gerar.sh --bambu pecas/minha-peca/peca.scad
+```
+
+| Arquivo | O que é |
+|---|---|
+| `peca.3mf` | Projeto com as configurações de impressora/filamento/processo embutidas — abre pronto no Bambu Studio |
+| `peca.gcode.3mf` | Fatiado — vai direto pra impressora (cartão SD, Bambu Handy ou LAN) |
+
+Os perfis ficam em `config/bambu.json` (padrão: A1, bico 0.4, Bambu PLA Basic, 0.20mm Standard — edite pro seu setup; os nomes devem bater com os JSONs oficiais em `bin/bambustudio-appimage/resources/profiles/BBL/`). Pintura multicolorida (AMS) continua sendo feita no Bambu Studio — abra o `.3mf` de projeto lá.
+
+---
+
 ## 🏗️ Como funciona por baixo
 
 ```

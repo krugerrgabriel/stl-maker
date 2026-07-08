@@ -119,6 +119,23 @@ pecas/router-bracket/
 
 ---
 
+## 🎋 Bambu Lab: ready-to-print 3MF
+
+With `--bambu`, the pipeline also produces two extra files using the official Bambu Studio CLI (installed by `install.sh` as an AppImage in `bin/`):
+
+```
+scripts/gerar.sh --bambu pecas/my-part/part.scad
+```
+
+| File | What it is |
+|---|---|
+| `part.3mf` | Project with printer/filament/process settings embedded — opens ready in Bambu Studio |
+| `part.gcode.3mf` | Sliced — send straight to the printer (SD card, Bambu Handy or LAN) |
+
+Printer, filament and process profiles live in `config/bambu.json` (defaults: A1, 0.4 nozzle, Bambu PLA Basic, 0.20mm Standard — edit to match your setup; names must match the official profile JSONs under `bin/bambustudio-appimage/resources/profiles/BBL/`). Multi-color (AMS) painting still happens in Bambu Studio — open the project `.3mf` there.
+
+---
+
 ## 🏗️ How it works under the hood
 
 ```

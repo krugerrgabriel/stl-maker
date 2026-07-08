@@ -9,3 +9,6 @@ pecas/
 
 # configuração local do Claude Code
 .claude/settings.local.json
+
+# artefato que o CLI do Bambu Studio grava no diretório de trabalho
+result.json

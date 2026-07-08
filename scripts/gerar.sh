@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # gerar.sh — compila uma peça (.scad ou .py) para STL, valida e gera previews.
-# Uso: scripts/gerar.sh pecas/minha-peca/peca.scad
+# Com --bambu, gera também <peca>.3mf (projeto) e <peca>.gcode.3mf (fatiado).
+# Uso: scripts/gerar.sh [--bambu] pecas/minha-peca/peca.scad
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PY="$DIR/.venv/bin/python"
-FONTE="${1:?uso: gerar.sh <peca.scad|peca.py>}"
+BAMBU=0
+if [ "${1:-}" = "--bambu" ]; then BAMBU=1; shift; fi
+FONTE="${1:?uso: gerar.sh [--bambu] <peca.scad|peca.py>}"
 FONTE="$(realpath "$FONTE")"
 PASTA="$(dirname "$FONTE")"
 NOME="$(basename "${FONTE%.*}")"
@@ -30,3 +33,8 @@ mkdir -p "$PASTA/previews"
 echo
 echo "STL......: $STL"
 echo "Previews.: $PASTA/previews/"
+
+if [ "$BAMBU" = 1 ]; then
+  echo
+  "$DIR/scripts/bambu.sh" "$STL"
+fi

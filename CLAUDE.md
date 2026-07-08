@@ -10,7 +10,8 @@ Projeto do Gabriel para transformar fotos + medidas em arquivos STL prontos para
    - `.scad` (OpenSCAD) — peças prismáticas/simples: suportes, ganchos, espaçadores, caixas, adaptadores.
    - `.py` (build123d, venv `.venv`) — geometria complexa: filetes, chanfros, lofts, roscas, curvas, ou quando precisar exportar STEP.
 4. **Gerar e VER**: `scripts/gerar.sh pecas/<nome>/<peca>.scad` (ou `.py`) → compila o STL, valida e gera 6 previews em `pecas/<nome>/previews/`. SEMPRE ler os PNGs (tool Read) e corrigir o modelo até a geometria estar certa. Iterar quantas vezes for preciso.
-5. **Entregar**: caminho do STL + dimensões finais + folgas usadas + orientação de impressão sugerida + o que conferir antes de imprimir.
+5. **Arquivos Bambu (na entrega final, não a cada iteração)**: `scripts/gerar.sh --bambu ...` gera também `<peca>.3mf` (projeto com configurações embutidas) e `<peca>.gcode.3mf` (fatiado, vai direto pra impressora). Perfis do setup do usuário em `config/bambu.json` (A1 Combo, bico 0.4, Bambu PLA Basic, 0.20mm Standard).
+6. **Entregar**: caminhos do STL e dos dois 3MF + dimensões finais + folgas usadas + orientação de impressão + tempo/filamento estimados pelo fatiamento + o que conferir antes de imprimir.
 
 ## Convenções de modelagem
 
@@ -26,6 +27,7 @@ Projeto do Gabriel para transformar fotos + medidas em arquivos STL prontos para
 - OpenSCAD: `openscad` no PATH ou `bin/openscad` (AppImage extraído pelo install.sh) — o `gerar.sh` resolve sozinho.
 - Python: `.venv/bin/python` (build123d, trimesh, matplotlib).
 - Validação: `scripts/validar_stl.py`. **Nunca entregar STL não-estanque.**
+- Bambu Studio CLI: `bin/bambu-studio` (AppImage extraído). `scripts/bambu.sh <peca.stl>` gera projeto 3MF + `.gcode.3mf` usando os perfis oficiais BBL de `config/bambu.json`. Peças multicoloridas (AMS) precisam de pintura manual no Bambu Studio — entregar o projeto 3MF e avisar.
 - Instalação/diagnóstico: `./install.sh` e `./install.sh --check`.
 
 ## Fora de escopo deste pipeline
